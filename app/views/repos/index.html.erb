@@ -1,0 +1,25 @@
+<h2>Your Private Repositories</h2>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  <% @repos.each do | repo | %>
+    <tr>
+      <td>
+        <a target="_blank" href="<%= repo.html_url %>"><%= repo.name %></a>
+      </td>
+      <td class="repo-table-description-cell">
+        <%= repo.description %>
+      </td> <!-- td.repo-table-description-cell -->
+      <td>
+        <span class="label label-warning">Not Archived!</span>
+      </td>
+      <td>
+        <a class="btn btn-primary" href="#" data-archive-url="/repos/<%= repo.id %>/archive">Archive</a>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,7 @@
+.bundle
+.env
+.rbx
+.sass-cache
+log/*.log
+tmp
+vendor/bundle
