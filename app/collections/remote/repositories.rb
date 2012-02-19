@@ -1,10 +1,5 @@
-require "active_support/core_ext/array/extract_options"
-require "faraday"
-require "map"
-require "yajl/json_gem"
-
 module Remote
-  class Repos
+  class Repositories
     attr_reader :auth_token , :options , :raw
 
     def initialize( *args , &block )
