@@ -1,0 +1,2 @@
+#!/usr/bin/env zsh
+rvm-shell "ruby-1.9.3-p0" -c "foreman run bundle exec rails "$argv
