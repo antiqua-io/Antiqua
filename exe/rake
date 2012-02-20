@@ -1,2 +1,2 @@
 #!/usr/bin/env zsh
-rvm-shell "ruby-1.9.3-p0" -c "foreman run bundle exec rake "$argv
+/usr/bin/env rvm-shell "rbx-head" -c "foreman run bundle exec rake "$argv
