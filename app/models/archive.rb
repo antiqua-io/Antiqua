@@ -5,8 +5,8 @@ require "state_machine"
 class Archive
   include Mongoid::Document
 
-  field :repo_id , :type => Integer
-  field :state   , :type => String
+  field :repository_id , :type => Integer
+  field :state         , :type => String
 
   state_machine :initial => :initialized do
     state :initialized
@@ -25,7 +25,7 @@ class Archive
       transition :queued => :creating_deploy_key
     end
 
-    after_transition :on => :queue , :do => :create_deploy_key
+    after_transition :on => :queue             , :do => :create_deploy_key
     after_transition :on => :create_deploy_key , :do => :enqueue_deploy_key_worker
   end
 

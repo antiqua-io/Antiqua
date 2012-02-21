@@ -63,7 +63,17 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/assets/jquery/1.7.1.js"><\/script>')</script>
 
+    <%= javascript_tag do %>
+      $.ajaxSetup( {
+        headers: {
+          'X-CSRF-TOKEN': '<%= form_authenticity_token.to_s %>'
+        }
+      } );
+    <% end %>
+
     <script src="/assets/antiqua/app.js"></script>
+
+    <%= yield :page_javascript %>
 
     <script>
       var _gaq = _gaq || [];

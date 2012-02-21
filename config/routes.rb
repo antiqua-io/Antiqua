@@ -1,7 +1,7 @@
 Antiqua::Application.routes.draw do
   root :to => "static#home"
 
-  resources :archives
+  resources :archives     , :only => [ :create ]
   resources :repositories , :only => [ :index ]
 
   match "auth/:provider/callback" => "auth#callback"

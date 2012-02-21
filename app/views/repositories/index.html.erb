@@ -18,8 +18,23 @@
         <span class="label label-warning">Not Archived!</span>
       </td>
       <td>
-        <a class="btn btn-primary" href="#" data-archive-url="/repos/<%= repo.id %>/archive">Archive</a>
+        <a class="btn btn-primary" id="repo-<%= repo.id %>" href="#" data-archive-url="/archives" data-repository-id="<%= repo.id %>">Archive</a>
       </td>
     </tr>
   <% end %>
 </table>
+<% content_for :page_javascript do %>
+  <%= javascript_tag do %>
+    $( 'a[ id ^= "repo-" ]' ).click( function( e ){
+      var success_callback = function( response ){ console.log( response ); }
+        , target = $( e.target );
+
+      $.ajax( {
+        data: { repository_id: target.data( 'repository-id' ) }
+      , success: success_callback
+      , type: "POST"
+      , url: target.data( 'archive-url' )
+      } );
+    } );
+  <% end %>
+<% end %>
