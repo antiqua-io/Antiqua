@@ -1,2 +1,2 @@
 #!/usr/bin/env zsh
-/usr/bin/env rvm-shell "rbx-head" -c "foreman run bundle exec rails "$argv
+/usr/bin/env foreman run "rvm-shell $APP_RUBY -c 'bundle exec rails $argv'"
