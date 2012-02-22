@@ -18,7 +18,13 @@
         <span class="label label-warning">Not Archived!</span>
       </td>
       <td>
-        <a class="btn btn-primary" id="repo-<%= repo.id %>" href="#" data-archive-url="/archives" data-repository-id="<%= repo.id %>" data-repository-name="<%= repo.name %>">Archive</a>
+        <a class="btn btn-primary"
+          id="repo-<%= repo.id %>"
+          href="#"
+          data-archive-url="/archives"
+          data-repository-id="<%= repo.id %>"
+          data-repository-name="<%= repo.name %>"
+          data-repository-ssh-url="<%= repo.ssh_url %>">Archive</a>
       </td>
     </tr>
   <% end %>
@@ -31,8 +37,9 @@
 
       $.ajax( {
         data: {
-          github_repository_id:   target.data( 'repository-id' )
-        , github_repository_name: target.data( 'repository-name' )
+          github_repository_id:      target.data( 'repository-id' )
+        , github_repository_name:    target.data( 'repository-name' )
+        , github_repository_ssh_url: target.data( 'repository-ssh-url' )
         }
       , success: success_callback
       , type: "POST"

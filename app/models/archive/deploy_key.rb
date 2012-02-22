@@ -54,11 +54,5 @@ class Archive
       File.delete private_key_path if File.exists? private_key_path
       File.delete public_key_path  if File.exists? public_key_path
     end
-
-    def restore!
-      create_key_dir!
-      File.open( private_key_path , "w" ) { | f | f.write self.private_key } unless File.exists? private_key_path
-      File.open( public_key_path  , "w" ) { | f | f.write self.public_key }  unless File.exists? public_key_path
-    end
   end
 end

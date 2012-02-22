@@ -5,8 +5,9 @@ class Repository
 
   # Fields
   #
-  field :github_id   , :type => String
-  field :github_name , :type => String
+  field :github_id      , :type => String
+  field :github_name    , :type => String
+  field :github_ssh_url , :type => String
 
   # Relations
   #

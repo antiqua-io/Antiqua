@@ -7,7 +7,8 @@ class RepositoriesPresenter
     "description",
     "html_url",
     "id",
-    "name"
+    "name",
+    "ssh_url"
   ]
 
   def self.present( *args , &block )
