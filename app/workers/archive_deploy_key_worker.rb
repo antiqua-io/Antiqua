@@ -1,12 +1,12 @@
 class ArchiveDeployKeyWorker
-  include       GenericWorker
+  include GenericWorker
   attr_reader :archive,
               :archive_id,
               :github_client,
               :options,
               :repository,
               :user
-  define_queue  "archive_deploy_key"
+  define_queue "archive_deploy_key"
 
   def initialize( *args , &block )
     @options    = Map Map.opts!( args )
@@ -21,6 +21,7 @@ class ArchiveDeployKeyWorker
 
   def create_deploy_key
     bootstrap!
+    p "Creating Deploy Key!"
     generate_deploy_key!
     create_github_client!
     github_key_data = github_client.add_deploy_key repository_identifier , archive.deploy_key.name , archive.deploy_key.public_key
@@ -37,6 +38,7 @@ class ArchiveDeployKeyWorker
 
   def perform
     create_deploy_key
+    archive.clone
   end
 
   def persist_github_key_data!( github_key_data )

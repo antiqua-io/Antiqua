@@ -6,4 +6,6 @@ Antiqua::Application.routes.draw do
 
   match "auth/:provider/callback" => "auth#callback"
   match "auth/failure"            => "auth#failure"
+
+  require "resque/server" and mount Resque::Server , :at => "/_resque"
 end
