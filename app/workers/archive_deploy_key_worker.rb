@@ -6,7 +6,10 @@ class ArchiveDeployKeyWorker
               :options,
               :repository,
               :user
-  define_queue "archive_deploy_key"
+
+  def self.queue
+    "#{ ENV[ "APP_ENV" ] }_archive_deploy_key"
+  end
 
   def initialize( *args , &block )
     @options    = Map Map.opts!( args )
@@ -38,7 +41,7 @@ class ArchiveDeployKeyWorker
 
   def perform
     create_deploy_key
-    archive.clone
+    archive.create_local_clone
   end
 
   def persist_github_key_data!( github_key_data )

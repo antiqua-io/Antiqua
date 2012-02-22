@@ -3,7 +3,10 @@ class ArchiveCleanWorker
   attr_reader :archive,
               :archive_id,
               :options
-  define_queue "archive_clean"
+
+  def self.queue
+    "#{ ENV[ "APP_ENV" ] }_archive_clean"
+  end
 
   def initialize( *args , &block )
     @options    = Map Map.opts!( args )

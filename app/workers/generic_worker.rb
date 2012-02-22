@@ -9,13 +9,6 @@ module GenericWorker
       worker = new *args , &block
       worker.perform
     end
-
-    def define_queue( name )
-      method_definition = proc do
-        "#{ ENV[ "APP_ENV" ] }_#{ name }"
-      end
-      self.class.send :define_method , :queue , method_definition
-    end
   end
 
   InstanceMethods = proc do

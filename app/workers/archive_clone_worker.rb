@@ -2,8 +2,13 @@ class ArchiveCloneWorker
   include GenericWorker
   attr_reader :archive,
               :archive_id,
-              :options
-  define_queue "archive_clone"
+              :cloner,
+              :options,
+              :repository
+
+  def self.queue
+    "#{ ENV[ "APP_ENV" ] }_archive_clone"
+  end
 
   def initialize( *args , &block )
     @options    = Map Map.opts!( args )
@@ -11,12 +16,20 @@ class ArchiveCloneWorker
   end
 
   def bootstrap!
-    @archive = Archive.find archive_id
+    @archive    = Archive.find archive_id
+    @repository = archive.repository
   end
 
   def clone
     bootstrap!
-    p "Cloning!"
+    create_cloner!
+    cloner.clone!
+  end
+
+  def create_cloner!
+    @cloner = RepositoryCloner.new \
+      :archive    => archive,
+      :repository => repository
   end
 
   def perform
