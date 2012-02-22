@@ -1,12 +1,18 @@
-require "mongoid"
-require "resque"
-require "state_machine"
-
 class Archive
   include Mongoid::Document
 
-  field :repository_id , :type => Integer
-  field :state         , :type => String
+  # Embeds
+  #
+  embeds_one :deploy_key , :class_name => "Archive::DeployKey"
+
+  # Fields
+  #
+  field :state , :type => String
+
+  # Relations
+  #
+  belongs_to :repository
+  belongs_to :user
 
   state_machine :initial => :initialized do
     state :initialized
@@ -18,18 +24,20 @@ class Archive
     state :finished
 
     event :queue do
-      transition :initialized => :queued
+      transition :initialized => :creating_deploy_key
     end
 
-    event :create_deploy_key do
-      transition :queued => :creating_deploy_key
-    end
-
-    after_transition :on => :queue             , :do => :create_deploy_key
-    after_transition :on => :create_deploy_key , :do => :enqueue_deploy_key_worker
+    after_transition :on => :queue , :do => :enqueue_deploy_key_worker
   end
 
   def enqueue_deploy_key_worker
     Resque.enqueue ArchiveDeployKeyWorker , :archive_id => id
+  end
+
+  def generate_deploy_key!
+    deploy_key.destroy if deploy_key.present?
+    key = build_deploy_key
+    key.generate!
+    key
   end
 end

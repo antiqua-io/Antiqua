@@ -30,6 +30,7 @@ module Antiqua
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(
       #{config.root}/app/collections
+      #{config.root}/app/lib
       #{config.root}/app/presenters
       #{config.root}/app/workers
     )

@@ -1,12 +1,12 @@
-require "mongoid"
-
 class User
   include Mongoid::Document
 
   # Fields
   #
   field :auth_token , :type => String
+  field :image_url  , :type => String
   field :uid        , :type => Integer
+  field :user_name  , :type => String
 
   # Indices
   #
@@ -14,5 +14,6 @@ class User
 
   # Relations
   #
+  has_many :archives
   has_many :repositories
 end

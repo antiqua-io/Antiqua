@@ -1,9 +1,7 @@
-require "map"
-
 module GenericWorker
   def self.included( klass )
     klass.instance_eval &ClassMethods
-    klass.instance_eval &InstanceMethods
+    klass.class_eval    &InstanceMethods
   end
 
   ClassMethods = proc do
