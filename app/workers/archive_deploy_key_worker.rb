@@ -23,12 +23,12 @@ class ArchiveDeployKeyWorker
     bootstrap!
     generate_deploy_key!
     create_github_client!
-    github_key_data = github_client.add_deploy_key repository.github_name , archive.deploy_key.name , archive.deploy_key.public_key
+    github_key_data = github_client.add_deploy_key repository_identifier , archive.deploy_key.name , archive.deploy_key.public_key
     persist_github_key_data! github_key_data
   end
 
   def create_github_client!
-    @github_client ||= GithubClient.new :login => user.user_name , :oauth_token => user.auth_token
+    @github_client ||= Octokit::Client.new :login => user.user_name , :oauth_token => user.auth_token
   end
 
   def generate_deploy_key!
@@ -43,5 +43,9 @@ class ArchiveDeployKeyWorker
     archive.deploy_key.github_id  = github_key_data[ "id" ]
     archive.deploy_key.github_url = github_key_data[ "url" ]
     archive.deploy_key.save!
+  end
+
+  def repository_identifier
+    "#{ user.user_name }/#{ repository.github_name }"
   end
 end
