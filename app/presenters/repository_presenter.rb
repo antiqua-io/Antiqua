@@ -1,6 +1,4 @@
-require "map"
-
-class RepositoriesPresenter
+class RepositoryPresenter
   attr_reader :final , :options , :remote_repos , :repos
 
   REMOTE_FIELDS = [
@@ -11,21 +9,27 @@ class RepositoriesPresenter
     "ssh_url"
   ]
 
-  def self.present( *args , &block )
-    presenter = new *args , &block
+  def self.present( *args )
+    presenter = new *args
     presenter.present
   end
 
-  def initialize( *args , &block )
+  def initialize( *args )
     @options      = Map Map.opts!( args )
     @remote_repos = options.remote_repos rescue []
     @repos        = options.repos        rescue []
   end
 
   def mix_app_local_data( final )
-    # final.each do | repo |
-    #   local_repo = repos.detect { | r | r.github_id == repo[ "id" ] }
-    # end
+    final.each do | repo |
+      local_repo = repos.detect { | r | r.github_id == repo[ "id" ] }
+      if local_repo
+        archives = ArchivePresenter.present( :target => local_repo.archives )
+      else
+        archives = []
+      end
+      repo[ "archives" ] = archives
+    end
     final
   end
 

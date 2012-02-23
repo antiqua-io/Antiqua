@@ -14,6 +14,6 @@ class User
 
   # Relations
   #
-  has_many :archives
-  has_many :repositories
+  has_many                :archives
+  has_and_belongs_to_many :repositories
 end

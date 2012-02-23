@@ -7,25 +7,41 @@
     <th>Action</th>
   </tr>
   <% @repos.each do | repo | %>
-    <tr>
+    <tr class="repository-row" id="repository-<%= repo.id %>-row">
       <td>
         <a target="_blank" href="<%= repo.html_url %>"><%= repo.name %></a>
       </td>
       <td class="repo-table-description-cell">
         <%= repo.description %>
       </td> <!-- td.repo-table-description-cell -->
-      <td>
-        <span class="label label-warning">Not Archived!</span>
-      </td>
-      <td>
-        <a class="btn btn-primary"
-          id="repo-<%= repo.id %>"
-          href="#"
-          data-archive-url="/archives"
-          data-repository-id="<%= repo.id %>"
-          data-repository-name="<%= repo.name %>"
-          data-repository-ssh-url="<%= repo.ssh_url %>">Archive</a>
-      </td>
+      <td class="repo-table-status-cell">
+        <% if repo.archives.empty? %>
+          <span class="label label-warning">Not Archived!</span>
+        <% elsif repo.archives.first[ "state" ] == "finished" %>
+          <span class="label label-success"><%= repo.archives.first[ "pretty_state" ] %></span>
+        <% else %>
+          <span class="label label-info"><%= repo.archives.first[ "pretty_state" ] %></span>
+        <% end %>
+      </td> <!-- td.repo-table-status-cell -->
+      <td class="repo-table-action-cell">
+        <% if repo.archives.empty? %>
+          <a class="btn btn-primary"
+            id="repo-<%= repo.id %>"
+            href="#"
+            data-archive-url="/archives"
+            data-repository-id="<%= repo.id %>"
+            data-repository-name="<%= repo.name %>"
+            data-repository-ssh-url="<%= repo.ssh_url %>">Archive</a>
+        <% elsif repo.archives.first[ "state" ] == "finished" %>
+          <a class="btn btn-success"
+            id="repo-<%= repo.id %>"
+            href="<%= repo.archives.first[ "download_url" ] %>">Download</a>
+        <% else %>
+          <a class="btn disabled"
+            id="repo-<%= repo.id %>"
+            href="#">Working</a>
+        <% end %>
+      </td> <!-- td.repo-table-action-cell -->
     </tr>
   <% end %>
 </table>

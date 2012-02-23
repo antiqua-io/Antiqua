@@ -11,7 +11,7 @@
 // Pages
 //
 //= require antiqua/pages/generic
-//= require_directory ./pages
+//= require_directory ./antiqua/pages
 
 // Start Time
 //
