@@ -34,6 +34,6 @@ class ArchiveCloneWorker
 
   def perform
     clone
-    archive.archive
+    archive.tar
   end
 end

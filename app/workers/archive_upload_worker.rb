@@ -1,14 +1,13 @@
-class ArchiveCleanWorker
+class ArchiveUploadWorker
   include GenericWorker
   attr_reader :archive,
               :archive_id,
-              :cleaner,
               :options,
               :repository,
-              :user
+              :uploader
 
   def self.queue
-    "#{ ENV[ "APP_ENV" ] }_archive_clean"
+    "#{ ENV[ "APP_ENV" ] }_archive_upload"
   end
 
   def initialize( *args , &block )
@@ -19,24 +18,22 @@ class ArchiveCleanWorker
   def bootstrap!
     @archive    = Archive.find archive_id
     @repository = archive.repository
-    @user       = archive.user
   end
 
-  def clean
+  def create_upload
     bootstrap!
-    create_cleaner!
-    cleaner.clean!
+    create_uploader!
+    uploader.upload!
   end
 
-  def create_cleaner!
-    @cleaner = ArchiveCleaner.new \
+  def create_uploader!
+    @uploader = RepositoryUploader.new \
       :archive    => archive,
-      :repository => repository,
-      :user       => user
+      :repository => repository
   end
 
   def perform
-    clean
-    archive.finish
+    create_upload
+    archive.clean
   end
 end

@@ -2,6 +2,7 @@ source :rubygems
 
 gem "bson_ext"        , "1.5.2"
 gem "faraday"         , "0.7.5"
+gem "fog"             , "0.9.0"
 gem "foreman"         , "0.39.0"
 gem "map"             , "5.1.0"
 gem "mongoid"         , "2.4.4"

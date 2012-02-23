@@ -18,16 +18,13 @@ class Archive
     state :initialized
     state :creating_deploy_key
     state :cloning
-    state :archiving
     state :cleaning
     state :finished
-
-    event :archive do
-      transition :cloning => :archiving
-    end
+    state :tarring
+    state :uploading
 
     event :clean do
-      transition :archiving => :cleaning
+      transition :uploading => :cleaning
     end
 
     event :create_local_clone do
@@ -42,14 +39,19 @@ class Archive
       transition :initialized => :creating_deploy_key
     end
 
-    after_transition :on => :archive            , :do => :enqueue_archive_worker    # 3
-    after_transition :on => :clean              , :do => :enqueue_clean_worker      # 4
+    event :tar do
+      transition :cloning => :tarring
+    end
+
+    event :upload do
+      transition :tarring => :uploading
+    end
+
+    after_transition :on => :clean              , :do => :enqueue_clean_worker      # 5
     after_transition :on => :create_local_clone , :do => :enqueue_clone_worker      # 2
     after_transition :on => :queue              , :do => :enqueue_deploy_key_worker # 1
-  end
-
-  def enqueue_archive_worker
-    Resque.enqueue ArchiveWorker , :archive_id => id_as_string
+    after_transition :on => :tar                , :do => :enqueue_tar_ball_worker   # 3
+    after_transition :on => :upload             , :do => :enqueue_upload_worker     # 4
   end
 
   def enqueue_clean_worker
@@ -62,6 +64,14 @@ class Archive
 
   def enqueue_deploy_key_worker
     Resque.enqueue ArchiveDeployKeyWorker , :archive_id => id_as_string
+  end
+
+  def enqueue_tar_ball_worker
+    Resque.enqueue ArchiveTarBallWorker , :archive_id => id_as_string
+  end
+
+  def enqueue_upload_worker
+    Resque.enqueue ArchiveUploadWorker , :archive_id => id_as_string
   end
 
   def generate_deploy_key!

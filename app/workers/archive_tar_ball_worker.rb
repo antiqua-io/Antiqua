@@ -1,14 +1,13 @@
-class ArchiveCleanWorker
+class ArchiveTarBallWorker
   include GenericWorker
   attr_reader :archive,
               :archive_id,
-              :cleaner,
               :options,
               :repository,
-              :user
+              :tar_baller
 
   def self.queue
-    "#{ ENV[ "APP_ENV" ] }_archive_clean"
+    "#{ ENV[ "APP_ENV" ] }_archive_tar_ball"
   end
 
   def initialize( *args , &block )
@@ -19,24 +18,22 @@ class ArchiveCleanWorker
   def bootstrap!
     @archive    = Archive.find archive_id
     @repository = archive.repository
-    @user       = archive.user
   end
 
-  def clean
+  def create_tar_ball
     bootstrap!
-    create_cleaner!
-    cleaner.clean!
+    create_tar_baller!
+    tar_baller.tar!
   end
 
-  def create_cleaner!
-    @cleaner = ArchiveCleaner.new \
+  def create_tar_baller!
+    @tar_baller = RepositoryTarBaller.new \
       :archive    => archive,
-      :repository => repository,
-      :user       => user
+      :repository => repository
   end
 
   def perform
-    clean
-    archive.finish
+    create_tar_ball
+    archive.upload
   end
 end

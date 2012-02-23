@@ -24,7 +24,6 @@ class ArchiveDeployKeyWorker
 
   def create_deploy_key
     bootstrap!
-    p "Creating Deploy Key!"
     generate_deploy_key!
     create_github_client!
     github_key_data = github_client.add_deploy_key repository_identifier , archive.deploy_key.name , archive.deploy_key.public_key
