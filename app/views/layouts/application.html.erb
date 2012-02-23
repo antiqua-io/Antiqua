@@ -61,9 +61,9 @@
 
     <!-- JS -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/assets/jquery/1.7.1.js"><\/script>')</script>
 
     <%= javascript_tag do %>
+      window.jQuery || document.write('<script src="/assets/jquery/1.7.1.js"><\/script>');
       $.ajaxSetup( {
         headers: {
           'X-CSRF-TOKEN': '<%= form_authenticity_token.to_s %>'
@@ -71,11 +71,11 @@
       } );
     <% end %>
 
-    <script src="/assets/antiqua/app.js"></script>
+    <%= javascript_include_tag "antiqua/app" %>
 
     <%= yield :page_javascript %>
 
-    <script>
+    <%= javascript_tag do %>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-XXXXX-X']);
       _gaq.push(['_trackPageview']);
@@ -85,7 +85,7 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    </script>
+    <% end %>
 
     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
          chromium.org/developers/how-tos/chrome-frame-getting-started -->
