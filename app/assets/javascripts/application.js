@@ -2,6 +2,7 @@
 //
 //= require document_cloud/underscore/1.2.3
 //= require document_cloud/backbone/0.5.3
+//= require twitter/bootstrap/dropdown/2.0.1
 
 // Base Application Code
 //

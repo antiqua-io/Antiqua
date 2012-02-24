@@ -36,9 +36,25 @@
             </li>
           </ul> <!-- ul.nav -->
           <ul class="nav pull-right">
-            <li>
-              <a href="/auth/github">Sign In</a>
-            </li>
+            <% if @current_user %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="<%= @current_user.image_url %>" width="30" height="30" />
+                  <%= @current_user.user_name %>
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="/repositories">Home</a>
+                    <a href="/auth/logout">Logout</a>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li>
+                <a href="/auth/github">Sign In</a>
+              </li>
+            <% end %>
           </ul> <!-- ul.nav.pull-right -->
         </div> <!-- div.container -->
       </div> <!-- div.navbar-inner -->
