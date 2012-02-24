@@ -1,14 +1,19 @@
 class AuthController < ApplicationController
-  def failure
-    auth = request.env['omniauth.auth']
-    raise auth.inspect
-  end
-
   def callback
     auth = request.env['omniauth.auth']
     initialize_session!      auth
     initialize_current_user! auth
     redirect_to repositories_path
+  end
+
+  def failure
+    auth = request.env['omniauth.auth']
+    raise auth.inspect
+  end
+
+  def logout
+    reset_session
+    redirect_to root_path
   end
 
 private

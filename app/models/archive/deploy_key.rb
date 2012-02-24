@@ -1,6 +1,7 @@
 class Archive
   class DeployKey
     include Mongoid::Document
+    include Mongoid::Timestamps
 
     # Embeds
     #

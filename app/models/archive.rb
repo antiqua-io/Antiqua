@@ -1,5 +1,6 @@
 class Archive
   include Mongoid::Document
+  include Mongoid::Timestamps
 
   # Embeds
   #
