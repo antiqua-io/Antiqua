@@ -1,0 +1,21 @@
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>Created At</th>
+    <th>State</th>
+    <th>Action</th>
+  </tr>
+  {{#archives}}
+    <tr>
+      <td>{{created_at}}</td>
+      <td>
+          <span class="label {{label_class}}">{{pretty_state}}</span>
+      </td>
+      <td>
+        <a class="btn {{btn_class}}"
+           target="_blank"
+           href="{{btn_href}}">{{btn_text}}</a>
+      </td>
+    </tr>
+  {{/archives}}
+</table> <!-- table.table.table-striped.table-bordered -->
+

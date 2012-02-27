@@ -1,19 +1,26 @@
-// Libraries
+// External Libraries
 //
 //= require document_cloud/underscore/1.2.3
-//= require document_cloud/backbone/0.5.3
+//= require hogan
 //= require twitter/bootstrap/dropdown/2.0.1
 
 // Base Application Code
 //
 //= require antiqua/main
-//= require antiqua/router
 
 // Pages
 //
-//= require antiqua/pages/generic
-//= require_directory ./antiqua/pages
+//= require antiqua/pages/generic_page
+//= require_tree ./antiqua/pages
 
-// Start Time
+// Presenters
 //
-//= require antiqua/boot
+//= require_tree ./antiqua/presenters
+
+// Pollers
+//
+//= require_tree ./antiqua/pollers
+
+// Templates
+//
+//= require_tree ./antiqua/templates

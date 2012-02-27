@@ -11,14 +11,8 @@ class ArchivesController < AuthenticatedController
     render :json => presented_archive , :status => 202
   end
 
-  def show
-    archive           = Archive.find params[ "id" ]
-    presented_archive = ArchivePresenter.present :target => archive
-    render :json => presented_archive
-  end
-
   def tar_ball
     remote_archive_object = Remote::Archives.new.get "#{ params[ "id" ] }.tar.gz"
-    redirect_to remote_archive_object.url( 30.minutes.from_now )
+    redirect_to remote_archive_object.url( 5.minutes.from_now )
   end
 end

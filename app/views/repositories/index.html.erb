@@ -3,44 +3,46 @@
     <h2>Your Archives</h2>
     <% @repos.each do | repo | %>
       <h3><%= repo.name %></h3>
-      <% if repo.archives.any? %>
-        <table class="table table-striped table-bordered">
-          <tr>
-            <th>Created At</th>
-            <th>State</th>
-            <th>Action</th>
-          </tr>
-          <% repo.archives.each do | archive | %>
+      <div id="repository-<%= repo.id %>-archives">
+        <% if repo.archives.any? %>
+          <table class="table table-striped table-bordered">
             <tr>
-              <td><%= archive[ "created_at" ] %></td>
-              <% if archive[ "state" ] == "finished" %>
-                <td>
-                    <span class="label label-success"><%= archive[ "pretty_state" ] %></span>
-                </td>
-                <td>
-                  <a class="btn btn-success"
-                     id="repo-<%= repo.id %>"
-                     target="_blank"
-                     href="/archives/<%= archive[ "id" ] %>/tar_ball">Download</a>
-                </td>
-              <% else %>
-                <td>
-                  <span class="label label-info"><%= archive[ "pretty_state" ] %></span>
-                </td>
-                <td>
-                  <a class="btn disabled"
-                     id="repo-<%= repo.id %>"
-                     href="#">Working</a>
-                </td>
-              <% end %>
+              <th>Created At</th>
+              <th>State</th>
+              <th>Action</th>
             </tr>
-          <% end %>
-        </table> <!-- table.table.table-striped.table-bordered -->
-      <% else %>
-        <div class="alert alert-warning">
-          This repository does not yet have any archives!
-        </div> <!-- div.alert.alert-info -->
-      <% end %>
+            <% repo.archives.each do | archive | %>
+              <tr>
+                <td><%= archive[ "created_at" ] %></td>
+                <% if archive[ "state" ] == "finished" %>
+                  <td>
+                      <span class="label label-success"><%= archive[ "pretty_state" ] %></span>
+                  </td>
+                  <td>
+                    <a class="btn btn-success"
+                       id="repo-<%= repo.id %>"
+                       target="_blank"
+                       href="/archives/<%= archive[ "id" ] %>/tar_ball">Download</a>
+                  </td>
+                <% else %>
+                  <td>
+                    <span class="label label-info"><%= archive[ "pretty_state" ] %></span>
+                  </td>
+                  <td>
+                    <a class="btn disabled"
+                       id="repo-<%= repo.id %>"
+                       href="#">Working</a>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </table> <!-- table.table.table-striped.table-bordered -->
+        <% else %>
+          <div class="alert alert-warning">
+            This repository does not yet have any archives!
+          </div> <!-- div.alert.alert-info -->
+        <% end %>
+      </div> <!-- div#repository-<%= repo.id %>-archives -->
     <% end %>
   </div> <!-- div.span8 -->
   <div class="span4">
@@ -57,7 +59,7 @@
           </td>
           <td>
             <a class="btn btn-primary"
-              id="repo-<%= repo.id %>"
+              id="repo-<%= repo.id %>-create-button"
               href="#"
               data-archive-url="/archives"
               data-repository-id="<%= repo.id %>"
