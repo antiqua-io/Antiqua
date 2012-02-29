@@ -11,10 +11,7 @@ class RepositoryUploader
   end
 
   def create_uploader!
-    aws_connection = Fog::Storage.new \
-                       :aws_access_key_id     => CONFIG.aws_access_key_id,
-                       :aws_secret_access_key => CONFIG.aws_secret_access_key,
-                       :provider              => "AWS"
+    aws_connection = AwsConnection.instance
     directory      = aws_connection.directories.create :key => "antiqua-#{ ENV[ "APP_ENV" ] }-archives"
     @aws_uploader  = directory.files
   end
