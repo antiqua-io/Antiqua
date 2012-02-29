@@ -3,7 +3,7 @@ module CONFIG
     key = "CONFIG_#{ method.to_s.upcase }"
     val = ENV[ key ]
     return val if val
-    super
+    nil
   end
 end
 
