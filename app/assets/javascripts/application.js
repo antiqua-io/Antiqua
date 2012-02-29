@@ -2,6 +2,7 @@
 //
 //= require document_cloud/underscore/1.2.3
 //= require hogan
+//= require twitter/bootstrap/alert/2.0.1
 //= require twitter/bootstrap/dropdown/2.0.1
 
 // Base Application Code

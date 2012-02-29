@@ -11,7 +11,7 @@ class RepositoryCloner
     pid = fork do
       exec <<COMMAND
 ssh-agent `which bash` -c " \
-if [ -e "~/.profile" ]; then source ~/.profile; fi && \
+  if [ -e "~/.profile" ]; then source ~/.profile; fi && \
   cd #{ Rails.root }/tmp/app/archives/#{ archive.id_as_string } && \
   ssh-add -D && \
   ssh-add deploy.key && \
