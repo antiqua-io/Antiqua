@@ -10,11 +10,12 @@ class RepositoryCloner
   def clone!
     pid = fork do
       exec <<COMMAND
+ssh-agent `which bash` -c " \
 if [ -e "~/.profile" ]; then source ~/.profile; fi && \
   cd #{ Rails.root }/tmp/app/archives/#{ archive.id_as_string } && \
   ssh-add -D && \
   ssh-add deploy.key && \
-  git clone --recursive #{ repository.github_ssh_url }
+  git clone --recursive #{ repository.github_ssh_url }"
 COMMAND
     end
     Process.wait pid
