@@ -32,4 +32,7 @@ Antiqua::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+  config.assets.precompile += %w( antiqua/repositories.js.coffee modernizr/2.0.6.js )
 end
