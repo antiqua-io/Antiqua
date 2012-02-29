@@ -1,5 +1,6 @@
 source :rubygems
 
+gem "airbrake"        , "3.0.9"
 gem "bson_ext"        , "1.5.2"
 gem "faraday"         , "0.7.5"
 gem "fog"             , "0.9.0"
