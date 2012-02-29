@@ -62,6 +62,17 @@ COMMAND
   end
 end
 
+namespace :rails do
+  desc "Precompile Assets"
+  task :precompile_assets , :roles => :app do
+    run <<COMMAND
+cp #{ shared_path }/#{ app_env }.env #{ release_path }/.env && \
+cd #{ release_path } && \
+RAILS_ENV=#{ app_env } RAILS_GROUPS=assets bundle exec foreman run rake assets:precompile
+COMMAND
+  end
+end
+
 namespace :rvm do
   desc "Auto trust the app RVMRC file"
   task :trust_rvmrc , :roles => :app do
@@ -69,8 +80,10 @@ namespace :rvm do
   end
 end
 
-after  "deploy"        , "rvm:trust_rvmrc"
 before "deploy:setup"  , "deploy:create_deploy_to_location"
-after  "deploy:setup"  , "deploy:update_deploy_to_permissions"
-after  "deploy:update" , "foreman:export"
-after  "deploy:update" , "foreman:restart"
+
+after  "deploy"                 , "rvm:trust_rvmrc"
+after  "deploy:finalize_update" , "rails:precompile_assets"
+after  "deploy:setup"           , "deploy:update_deploy_to_permissions"
+after  "deploy:update"          , "foreman:export"
+after  "deploy:update"          , "foreman:restart"

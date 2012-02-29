@@ -3,6 +3,9 @@ defaults: &defaults
   port : 27017
   database: antiqua_<%= ENV[ "RACK_ENV" ] %>
 
+demo:
+  <<: *defaults
+
 development:
   <<: *defaults
 
