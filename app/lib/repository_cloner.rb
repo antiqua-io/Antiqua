@@ -8,11 +8,14 @@ class RepositoryCloner
   end
 
   def clone!
-    system <<-COMMAND
-      cd #{ Rails.root }/tmp/app/archives/#{ archive.id_as_string } && \
-        ssh-add -D && \
-        ssh-add deploy.key && \
-        git clone --recursive #{ repository.github_ssh_url }
-    COMMAND
+    pid = fork do
+      exec <<COMMAND
+cd #{ Rails.root }/tmp/app/archives/#{ archive.id_as_string } && \
+  ssh-add -D && \
+  ssh-add deploy.key && \
+  git clone --recursive #{ repository.github_ssh_url }
+COMMAND
+    end
+    Process.wait pid
   end
 end
