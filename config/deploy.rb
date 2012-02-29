@@ -21,6 +21,18 @@ namespace :deploy do
     sudo "mkdir -p #{ deploy_to }"
   end
 
+  task :restart do
+    foreman.restart
+  end
+
+  task :start do
+    foreman.start
+  end
+
+  task :stop do
+    foreman.stop
+  end
+
   task :update_deploy_to_permissions , :roles => :app do
     sudo "chown -hR #{ user }:#{ user } #{ deploy_to }"
   end
@@ -85,5 +97,5 @@ before "deploy:setup"  , "deploy:create_deploy_to_location"
 after  "deploy"                 , "rvm:trust_rvmrc"
 after  "deploy:finalize_update" , "rails:precompile_assets"
 after  "deploy:setup"           , "deploy:update_deploy_to_permissions"
-after  "deploy:update"          , "foreman:export"
+after  "deploy:setup"          , "foreman:export"
 after  "deploy:update"          , "foreman:restart"
