@@ -4,15 +4,16 @@ require "capistrano/ext/multistage"
 $:.unshift File.expand_path( "./lib" , ENV[ "rvm_path" ] )
 require "rvm/capistrano"
 
-set :application         , "antiqua"
-set :default_run_options , :pty => true
-set :default_stage       , "demo"
-set :deploy_via          , :remote_cache
-set :repository          , "git@github.com:cookrn/Antiqua.git"
-set :rvm_ruby_string     , "ruby-1.9.3-p125"
-set :scm                 , :git
-set :stages              , [ "demo" ]
-set :use_sudo            , true
+set :application                , "antiqua"
+set :default_run_options        , :pty => true
+set :default_stage              , "demo"
+set :deploy_via                 , :remote_cache
+set :normalize_asset_timestamps , false
+set :repository                 , "git@github.com:cookrn/Antiqua.git"
+set :rvm_ruby_string            , "ruby-1.9.3-p125"
+set :scm                        , :git
+set :stages                     , [ "demo" ]
+set :use_sudo                   , true
 
 ssh_options[ :forward_agent ] = true
 
@@ -70,16 +71,20 @@ COMMAND
 
   desc "Restart the application services"
   task :restart, :roles => :app do
-    run "sudo start #{ application }-#{ app_env } || sudo restart #{ application }-#{ app_env }"
+    run "sudo restart #{ application }-#{ app_env }"
   end
 end
 
 namespace :rails do
   desc "Precompile Assets"
   task :precompile_assets , :roles => :app do
+    public_asset_path = "#{ release_path }/public/assets"
+    shared_asset_path = "#{ shared_path }/assets"
     run <<COMMAND
 cp #{ shared_path }/#{ app_env }.env #{ release_path }/.env && \
 cd #{ release_path } && \
+mkdir -p #{ shared_asset_path } && \
+ln -s #{ shared_asset_path } #{ public_asset_path } && \
 RAILS_ENV=#{ app_env } RAILS_GROUPS=assets bundle exec foreman run rake assets:precompile
 COMMAND
   end
@@ -97,5 +102,4 @@ before "deploy:setup"  , "deploy:create_deploy_to_location"
 after  "deploy"                 , "rvm:trust_rvmrc"
 after  "deploy:finalize_update" , "rails:precompile_assets"
 after  "deploy:setup"           , "deploy:update_deploy_to_permissions"
-after  "deploy:setup"          , "foreman:export"
-after  "deploy:update"          , "foreman:restart"
+after  "deploy:setup"           , "foreman:export"
