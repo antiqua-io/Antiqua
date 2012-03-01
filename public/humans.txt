@@ -1,0 +1,69 @@
+/* the humans responsible & colophon */
+/* humanstxt.org */
+
+/* SITE */
+  Name: Antiqua.IO
+  Description: A place to archive private, unused GitHub repositories
+
+/* TEAM */
+  Operator: Ryan Cook
+  Site: https://antiqua.io/
+  Twitter: cookrn
+  Location: Boulder, CO
+
+/* THANKS */
+  Github     => https://github.com/
+  Quick Left => http://quickleft.com/
+
+/* SITE */
+  Standards: CSS, HTML, JS, Ruby
+  Components:
+    Capistrano        => https://github.com/capistrano/capistrano/wiki/
+    CoffeeScript      => http://coffeescript.org/
+    Fog               => http://fog.io/
+    Foreman           => http://ddollar.github.com/foreman/
+    Hogan.js          => http://twitter.github.com/hogan.js/
+    HTML5 Boilerplate => http://html5boilerplate.com/
+    jQuery            => http://jquery.com/
+    Map               => https://github.com/ahoward/map
+    Modernizr         => http://www.modernizr.com/
+    MongoDB           => http://www.mongodb.org/
+    Mongoid           => http://mongoid.org/
+    Mustache          => http://mustache.github.com/
+    Nginx             => http://nginx.org/
+    Octokit           => https://github.com/pengwynn/octokit
+    OmniAuth          => http://www.omniauth.org/
+    Rails             => http://rubyonrails.org/
+    Redis             => http://redis.io/
+    Resque            => https://github.com/defunkt/resque
+    Ruby              => http://www.ruby-lang.org/en/
+    SCSS              => http://sass-lang.com/
+    Sprockets         => http://getsprockets.org/
+    Statemachine      => http://slagyr.github.com/statemachine/
+    Thin              => http://code.macournoyer.com/thin/
+    Twitter Bootstrap => http://twitter.github.com/bootstrap/
+
+                               -o/-
+                               +oo//-
+                              :ooo+//:
+                             -ooooo///-
+                             /oooooo//:
+                            :ooooooo+//-
+                           -+oooooooo///-
+           -://////////////+oooooooooo++////////////::
+            :+ooooooooooooooooooooooooooooooooooooo+:::-
+              -/+ooooooooooooooooooooooooooooooo+/::////:-
+                -:+oooooooooooooooooooooooooooo/::///////:-
+                  --/+ooooooooooooooooooooo+::://////:-
+                     -:+ooooooooooooooooo+:://////:--
+                       /ooooooooooooooooo+//////:-
+                      -ooooooooooooooooooo////-
+                      /ooooooooo+oooooooooo//:
+                     :ooooooo+/::/+oooooooo+//-
+                    -oooooo/::///////+oooooo///-
+                    /ooo+::://////:---:/+oooo//:
+                   -o+/::///////:-      -:/+o+//-
+                   :-:///////:-            -:/://
+                     -////:-                 --//:
+                       --                       -:
+
