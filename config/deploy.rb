@@ -1,5 +1,3 @@
-require './config/boot'
-require 'airbrake/capistrano'
 require "bundler/capistrano"
 require "capistrano/ext/multistage"
 
