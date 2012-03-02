@@ -45,8 +45,20 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="/repositories">Home</a>
+                    <a href="/repositories">Repositories & Archives</a>
                   </li>
+                  <% if current_user.admin? %>
+                    <li class="divider"></li>
+                    <li>
+                      <a href="/admin/archives">Admin - Archives</a>
+                    </li>
+                    <li>
+                      <a href="/admin/repositories">Admin - Repositories</a>
+                    </li>
+                    <li>
+                      <a href="/admin/users">Admin - Users</a>
+                    </li>
+                  <% end %>
                   <li class="divider"></li>
                   <li>
                     <a href="/auth/logout">Logout</a>

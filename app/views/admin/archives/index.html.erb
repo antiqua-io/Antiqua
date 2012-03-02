@@ -1,0 +1,35 @@
+<h1>Archives</h1>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ID</th>
+    <th>State</th>
+    <th>Repository</th>
+    <th>User</th>
+    <th>Created At</th>
+    <th>Download</th>
+  </tr>
+  <% unless @archives.empty? %>
+    <% @archives.each do | archive | %>
+      <tr>
+        <td><%= archive.id_as_string %></td>
+        <td><%= archive.state %></td>
+        <td><%= archive.repository.github_name %></td>
+        <td><%= archive.user.user_name %></td>
+        <td><%= archive.created_at %></td>
+        <td>
+          <% if archive.finished? %>
+            <a class="btn btn-success"
+               target="_blank"
+               href="/archives/<%= archive.id_as_string %>/tar_ball">Download</a>
+          <% else %>
+            <a class="btn disabled"
+               href="#">Working</a>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  <% else %>
+    <td colspan="6">There are currently no archives!</td>
+  <% end %>
+</table>
+<%= paginate @archives %>

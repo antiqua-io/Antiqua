@@ -1,0 +1,28 @@
+<h1>Repositories</h1>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ID</th>
+    <th>GitHub ID</th>
+    <th>GitHub Name</th>
+    <th>GitHub SSH URL</th>
+    <th>Users</th>
+    <th>Archives</th>
+    <th>Created At</th>
+  </tr>
+  <% unless @repositories.empty? %>
+    <% @repositories.each do | repository | %>
+      <tr>
+        <td><%= repository.id.to_s %></td>
+        <td><%= repository.github_id %></td>
+        <td><%= repository.github_name %></td>
+        <td><%= repository.github_ssh_url %></td>
+        <td><%= repository.users.count %></td>
+        <td><%= repository.archives.count %></td>
+        <td><%= repository.created_at %></td>
+      </tr>
+    <% end %>
+  <% else %>
+    <td colspan="7">There are currently no repositories!</td>
+  <% end %>
+</table>
+<%= paginate @repositories %>
