@@ -20,7 +20,9 @@ class RepositoriesPage extends Antiqua.GenericPage
       @renderLoader $archive_button
       $window = $ 'html,body'
       $scroll_to = $ "#repo-#{ repository_id }-header"
-      $window.animate scrollTop: $scroll_to.offset().top - $window.offset().top + $window.scrollTop() - 50
+      $window.animate
+        scrollTop: $scroll_to.offset().top - $window.offset().top + $window.scrollTop() - 50
+      , 1000
 
   renderArchives: ( repository ) ->
     if repository.archives.length > 0
