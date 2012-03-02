@@ -2,7 +2,7 @@
   <div class="span8">
     <h2>Your Archives</h2>
     <% @repos.each do | repo | %>
-      <h3><%= repo.name %></h3>
+      <h3 id="repo-<%= repo.id %>-header"><%= repo.name %></h3>
       <div id="repository-<%= repo.id %>-archives">
         <% if repo.archives.any? %>
           <table class="table table-striped table-bordered">
