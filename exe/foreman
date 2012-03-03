@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 original_args=$@
-builtin type -p foreman &> /dev/null
-if [ $? -eq 0 ] ; then
-  foreman_command='foreman'
-else
-  foreman_command='bundle exec foreman'
+foreman_command='foreman'
+if [ -z "${FOREMAN_REQUIRES_BUNDLER+xxx}" ] ; then # Testing whether ENV var is NOT set
+  builtin type -p foreman &> /dev/null
+  if [ $? -eq 0 ] ; then # Testing whether foreman command can be run w/out Bundler
+    export FOREMAN_REQUIRES_BUNDLER=false
+  else # Foreman needs bundler
+    export FOREMAN_REQUIRES_BUNDLER=true
+  fi
 fi
+if [ $FOREMAN_REQUIRES_BUNDLER == true ] ; then foreman_command="bundle exec $foreman_command" ; fi
 eval "exec $foreman_command $original_args"
