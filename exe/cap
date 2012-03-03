@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-/usr/bin/env foreman run "rvm-shell $APP_RUBY -c 'bundle exec cap $@'"
+original_args=$@
+exec /usr/bin/env foreman run "/usr/bin/env rvm-shell $APP_RUBY -c 'bundle exec cap $original_args'"
