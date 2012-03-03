@@ -6,4 +6,4 @@ if [ $? -eq 0 ] ; then
 else
   foreman_command='bundle exec foreman'
 fi
-exec /usr/bin/env rvm-shell $APP_RUBY -c "$foreman_command $original_args"
+eval "exec $foreman_command $original_args"

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+original_args=$@
+builtin type -p foreman &> /dev/null
+if [ $? -eq 0 ] ; then
+  original_args="bundle exec $original_args"
+fi
+rvm_command='/usr/bin/env rvm-shell $APP_RUBY -c'
+full_command="exe/foreman run '$rvm_command \"$original_args\"'"
+exec $full_command
