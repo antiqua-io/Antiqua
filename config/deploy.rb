@@ -48,7 +48,7 @@ namespace :foreman do
 mkdir -p #{ upstart_tmp_path } && \
 rm -f #{ upstart_tmp_path }/*.conf && \
 cd #{ current_path } && \
-bundle exec foreman export upstart #{ upstart_tmp_path } \
+exe/foreman export upstart #{ upstart_tmp_path } \
   -a #{ application }-#{ app_env } \
   -e #{ environment_file } \
   -f Procfile \
@@ -85,7 +85,7 @@ cp #{ shared_path }/#{ app_env }.env #{ release_path }/.env && \
 cd #{ release_path } && \
 mkdir -p #{ shared_asset_path } && \
 ln -s #{ shared_asset_path } #{ public_asset_path } && \
-RAILS_ENV=#{ app_env } RAILS_GROUPS=assets bundle exec foreman run rake assets:precompile
+RAILS_ENV=#{ app_env } RAILS_GROUPS=assets exe/rake assets:precompile
 COMMAND
   end
 end

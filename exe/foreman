@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+original_args=$@
+builtin type -p foreman &> /dev/null
+if [ $? -eq 0 ] ; then
+  foreman_command='foreman'
+else
+  foreman_command='bundle exec foreman'
+fi
+exec /usr/bin/env rvm-shell $APP_RUBY -c "$foreman_command $original_args"
