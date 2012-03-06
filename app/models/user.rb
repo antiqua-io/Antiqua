@@ -4,11 +4,14 @@ class User
 
   # Fields
   #
-  field :auth_token , :type => String
-  field :image_url  , :type => String
-  field :is_admin   , :type => Boolean , :default => false
-  field :uid        , :type => Integer
-  field :user_name  , :type => String
+  field :auth_token   , :type => String
+  field :confirmed_at , :type => Time
+  field :email        , :type => String
+  field :image_url    , :type => String
+  field :is_admin     , :type => Boolean , :default => false
+  field :is_confirmed , :type => Boolean , :default => false
+  field :uid          , :type => Integer
+  field :user_name    , :type => String
 
   # Indices
   #
@@ -21,5 +24,15 @@ class User
 
   def admin?
     is_admin
+  end
+
+  def confirm!
+    self.confirmed_at = Time.now.utc
+    self.is_confirmed = true
+    save!
+  end
+
+  def confirmed?
+    is_confirmed
   end
 end

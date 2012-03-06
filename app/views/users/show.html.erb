@@ -1,0 +1,48 @@
+<h1>Welcome to Antiqua!</h1>
+<p>Before we can get started, we need to confirm a few things. To complete this, please fill out the form below...</p>
+<%= form_tag "/users/#{ current_user.user_name }" , :method => :put do | f | %>
+  <div class="row">
+    <div class="span4">
+      <h3>Email</h3>
+      <p>Please confirm or enter your email address</p>
+    </div>
+    <div class="span8">
+      <div class="well">
+        <label for="email">
+          <input type="email" name="email" id="email" autofocus="autofocus" required="required" value="<%= @email %>" />
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span4">
+      <h3>Privacy Policy</h3>
+      <p>Please check the box to the right if you have read, and agree to, the <a href="/privacy_policy" target="_blank">Privacy Policy</a></p>
+    </div>
+    <div class="span8">
+      <div class="well">
+        <label for="agree_privacy_policy">
+          <input type="checkbox" id="agree_privacy_policy" name="agree_privacy_policy" required="required" />
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span4">
+      <h3>Terms of Service</h3>
+      <p>Please check the box to the right if you have read, and agree to, the <a href="/terms_of_service" target="_blank">Terms of Service</a></p>
+    </div>
+    <div class="span8">
+      <div class="well">
+        <label for="agree_terms_of_service">
+          <input type="checkbox" id="agree_terms_of_service" name="agree_terms_of_service" required="required" />
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12 pull-right">
+      <input type="submit" class="btn btn-large btn-primary" value="All Done!" />
+    </div>
+  </div>
+<% end %>

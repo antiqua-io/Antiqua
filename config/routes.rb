@@ -15,9 +15,14 @@ Antiqua::Application.routes.draw do
 
   resources :repositories , :only => [ :index ]
 
+  resources :users , :only => [ :show , :update ]
+
   match "auth/:provider/callback" => "auth#callback"
   match "auth/failure"            => "auth#failure"
   match "auth/logout"             => "auth#logout"
+
+  match "terms_of_service" => "static#terms_of_service"
+  match "privacy_policy"   => "static#privacy_policy"
 
   require "resque/server" and mount Resque::Server , :at => "/_resque"
 end
