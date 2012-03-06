@@ -23,6 +23,4 @@ Antiqua::Application.routes.draw do
 
   match "terms_of_service" => "static#terms_of_service"
   match "privacy_policy"   => "static#privacy_policy"
-
-  require "resque/server" and mount Resque::Server , :at => "/_resque"
 end
