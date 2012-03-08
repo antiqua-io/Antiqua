@@ -27,56 +27,11 @@
     <!-- /JS -->
   </head>
   <body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <ul class="nav">
-            <li>
-              <a class="brand" href="/">Antiqua</a>
-            </li>
-          </ul> <!-- ul.nav -->
-          <ul class="nav pull-right">
-            <% if current_user? %>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="<%= current_user.image_url %>" width="30" height="30" />
-                  <%= current_user.user_name %>
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="/repositories">Repositories & Archives</a>
-                  </li>
-                  <li>
-                    <a href="/users/<%= current_user.user_name %>/account">Account</a>
-                  </li>
-                  <% if current_user.admin? %>
-                    <li class="divider"></li>
-                    <li>
-                      <a href="/admin/archives">Admin - Archives</a>
-                    </li>
-                    <li>
-                      <a href="/admin/repositories">Admin - Repositories</a>
-                    </li>
-                    <li>
-                      <a href="/admin/users">Admin - Users</a>
-                    </li>
-                  <% end %>
-                  <li class="divider"></li>
-                  <li>
-                    <a href="/auth/logout">Logout</a>
-                  </li>
-                </ul>
-              </li>
-            <% else %>
-              <li>
-                <a href="/auth/github">Sign In</a>
-              </li>
-            <% end %>
-          </ul> <!-- ul.nav.pull-right -->
-        </div> <!-- div.container -->
-      </div> <!-- div.navbar-inner -->
-    </div> <!-- div.navbar.navbar-fixed-top -->
+    <% if current_user? %>
+      <%= render "shared/authenticated_header" %>
+    <% else %>
+      <%= render "shared/header" %>
+    <% end %>
 
     <div class="container main">
       <%= render "shared/alert" if CONFIG.has_global_alert == "true" %>
