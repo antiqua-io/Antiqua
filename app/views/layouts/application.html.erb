@@ -47,6 +47,9 @@
                   <li>
                     <a href="/repositories">Repositories & Archives</a>
                   </li>
+                  <li>
+                    <a href="/users/<%= current_user.user_name %>/account">Account</a>
+                  </li>
                   <% if current_user.admin? %>
                     <li class="divider"></li>
                     <li>
@@ -77,6 +80,7 @@
 
     <div class="container main">
       <%= render "shared/alert" if CONFIG.has_global_alert == "true" %>
+      <%= render "shared/flash_messages" %>
       <%= yield %>
     </div> <!-- div.container.main -->
 

@@ -1,12 +1,17 @@
 class UsersController < AuthenticatedController
-  before_filter :require_not_confirmed , :require_same_user
+  before_filter :require_not_confirmed , :only => :show
+  before_filter :require_same_user     , :only => :update
+
+  def account
+  end
 
   def show
     load_email!
   end
 
   def update
-    current_user.confirm!
+    current_user.safe_update params[ "user" ]
+    params[ "user" ][ "_confirm" ] == "true" ? current_user.confirm! : current_user.save!
     redirect_to repositories_path
   end
 private

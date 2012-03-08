@@ -7,15 +7,18 @@ Antiqua::Application.routes.draw do
     resources :users        , :only => :index
   end
 
-  resources :archives     , :only => [ :create , :show ] do
-    member do
-      get :tar_ball
-    end
+  resources :archives , :only => [ :create , :show ] do
+    member { get :tar_ball }
   end
 
   resources :repositories , :only => [ :index ]
 
-  resources :users , :only => [ :show , :update ]
+  resources :users , :only => [ :show , :update ] do
+    member do
+      get :account
+      resource :subscription , :only => [ :create , :destroy ]
+    end
+  end
 
   match "auth/:provider/callback" => "auth#callback"
   match "auth/failure"            => "auth#failure"

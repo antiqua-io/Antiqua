@@ -1,6 +1,7 @@
 <h1>Welcome to Antiqua!</h1>
 <p>Before we can get started, we need to confirm a few things. To complete this, please fill out the form below...</p>
 <%= form_tag "/users/#{ current_user.user_name }" , :method => :put do | f | %>
+  <input type="hidden" name="user[_confirm]" value="true" />
   <div class="row">
     <div class="span4">
       <h3>Email</h3>
@@ -9,7 +10,7 @@
     <div class="span8">
       <div class="well">
         <label for="email">
-          <input type="email" name="email" id="email" autofocus="autofocus" required="required" value="<%= @email %>" />
+          <input type="email" name="user[email]" id="email" autofocus="autofocus" required="required" value="<%= @email %>" />
         </label>
       </div>
     </div>
@@ -22,7 +23,7 @@
     <div class="span8">
       <div class="well">
         <label for="agree_privacy_policy">
-          <input type="checkbox" id="agree_privacy_policy" name="agree_privacy_policy" required="required" />
+          <input type="checkbox" id="agree_privacy_policy" name="user[agreements][agree_privacy_policy]" required="required" value="true" />
         </label>
       </div>
     </div>
@@ -35,7 +36,7 @@
     <div class="span8">
       <div class="well">
         <label for="agree_terms_of_service">
-          <input type="checkbox" id="agree_terms_of_service" name="agree_terms_of_service" required="required" />
+          <input type="checkbox" id="agree_terms_of_service" name="user[agreements][agree_terms_of_service]" required="required" value="true" />
         </label>
       </div>
     </div>

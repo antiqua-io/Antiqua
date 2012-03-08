@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="span3">
+    <h3>Payment Information</h3>
+  </div>
+  <div class="span9">
+    <div class="well">
+      <p>Complete the following payment form to subscribe as an individual. You will automatically be charged $5 monthly with your first payment being on the day you subscribe.</p>
+    </div>
+  </div>
+</div>
+<%= form_tag "/users/#{ current_user.user_name }/subscription" , :method => :post , :id => "payment-form" do | f | %>
+  <div class="payment-errors"></div>
+  <div class="row">
+    <div class="span3">
+      <label for="card-number">
+        <h4>Card Number</h4>
+      </label>
+    </div>
+    <div class="span9">
+      <div class="well">
+        <input type="text" size="20" id="card-number" autocomplete="off" class="card-number"/>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span3">
+      <label for="card-cvc">
+        <h4>CVC</h4>
+      </label>
+    </div>
+    <div class="span9">
+      <div class="well">
+        <input type="text" size="20" id="card-cvc" autocomplete="off" class="card-cvc"/>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span3">
+      <label>
+        <h4>Expiration (MM/YYYY)</h4>
+      </label>
+    </div>
+    <div class="span9">
+      <div class="well">
+        <input type="text" size="2" class="card-expiry-month"/>
+        <span> / </span>
+        <input type="text" size="4" class="card-expiry-year"/>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary btn-large submit-button">Subscribe</button>
+<% end %>
+<% content_for :page_javascript do %>
+  <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+  <%= javascript_tag do %>
+    Stripe.setPublishableKey( '<%= CONFIG.stripe_publishable_key %>' );
+  <% end %>
+  <%= javascript_include_tag "account" %>
+<% end %>
