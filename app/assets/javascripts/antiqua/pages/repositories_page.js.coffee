@@ -7,7 +7,6 @@ class RepositoriesPage extends Antiqua.GenericPage
   pollerCallback: ( poller_response ) => @updateRepositories poller_response
 
   queueArchive: ( $archive_button ) ->
-    $( '#toggle-poller' ).trigger 'click'
     target        = $archive_button
     repository_id = target.data 'repository-id'
     call          = $.ajax
@@ -26,6 +25,7 @@ class RepositoriesPage extends Antiqua.GenericPage
       alert = HoganTemplates[ 'antiqua/templates/user/subscription_alert' ].render alert_data
       $( 'div.container.main' ).prepend alert
     call.success =>
+      @togglePoller $( '#toggle-poller' )
       @renderLoader $archive_button
       $window = $ 'html,body'
       $scroll_to = $ "#repo-#{ repository_id }-header"
@@ -51,16 +51,18 @@ class RepositoriesPage extends Antiqua.GenericPage
     $loader.find( '.bar' ).animate animation_props , 3000 , 'linear' , animation_callback
 
   startPoller: ( $btn ) ->
-    @poller_running = true
-    @poller.start()
-    new_btn = HoganTemplates[ 'antiqua/templates/repository/stop_poller_button' ].render()
-    $btn.replaceWith new_btn
+    if not @poller_running
+      @poller_running = true
+      @poller.start()
+      new_btn = HoganTemplates[ 'antiqua/templates/repository/stop_poller_button' ].render()
+      $btn.replaceWith new_btn
 
   stopPoller: ( $btn ) ->
-    @poller_running = false
-    @poller.stop()
-    new_btn = HoganTemplates[ 'antiqua/templates/repository/start_poller_button' ].render()
-    $btn.replaceWith new_btn
+    if @poller_running
+      @poller_running = false
+      @poller.stop()
+      new_btn = HoganTemplates[ 'antiqua/templates/repository/start_poller_button' ].render()
+      $btn.replaceWith new_btn
 
   togglePoller: ( $btn ) ->
     return @stopPoller( $btn ) if @poller_running
