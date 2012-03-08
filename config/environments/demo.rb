@@ -37,5 +37,5 @@ Antiqua::Application.configure do
   config.active_support.deprecation = :notify
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( repositories.js modernizr/2.0.6.js )
+  config.assets.precompile += %w( account.js repositories.js modernizr/2.0.6.js )
 end
