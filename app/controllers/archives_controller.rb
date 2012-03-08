@@ -1,4 +1,6 @@
 class ArchivesController < AuthenticatedController
+  before_filter :verify_user_subscription , :only => :create
+
   def create
     repository = Repository.find_or_create_by \
       :github_id      => params[ :github_repository_id ].to_i ,
@@ -14,5 +16,14 @@ class ArchivesController < AuthenticatedController
   def tar_ball
     remote_archive_object = Remote::Archives.new.get "#{ params[ "id" ] }.tar.gz"
     redirect_to remote_archive_object.url( 5.minutes.from_now )
+  end
+private
+  def user_allowed?
+    current_user.subscribed? || current_user.archives.count < 1
+  end
+
+  def verify_user_subscription
+    flash_message = "You can only create one archive until you <a href='#{ account_user_path current_user.user_name }'>subscribe!</a>"
+    render( :json => { "error" => "needs_subscription" , "user_name" => current_user.user_name } , :status => 403 ) unless user_allowed?
   end
 end

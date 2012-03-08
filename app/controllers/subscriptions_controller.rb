@@ -3,7 +3,7 @@ class SubscriptionsController < AuthenticatedController
 
   def create
     current_user.subscribe! params[ "stripe_token" ]
-    redirect_to account_user_path( current_user.user_name ) , :notice => "You have successfully subscribed to Antiqua!"
+    redirect_to repositories_path , :notice => "You have successfully subscribed to Antiqua!"
   end
 
   def destroy

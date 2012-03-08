@@ -16,6 +16,14 @@ class RepositoriesPage extends Antiqua.GenericPage
         github_repository_ssh_url: target.data 'repository-ssh-url'
       type: 'POST'
       url: target.data 'archive-url'
+    call.error ( response ) ->
+      response_data = JSON.parse response.responseText
+      user_name = response_data.user_name
+      alert_data =
+        class:     'error'
+        user_name: user_name
+      alert = HoganTemplates[ 'antiqua/templates/user/subscription_alert' ].render alert_data
+      $( 'div.container.main' ).prepend alert
     call.success =>
       @renderLoader $archive_button
       $window = $ 'html,body'
