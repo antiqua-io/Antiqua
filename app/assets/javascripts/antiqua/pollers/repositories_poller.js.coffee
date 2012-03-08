@@ -1,9 +1,9 @@
 class Antiqua.RepositoriesPoller
   callback: null
+  stop_flag: false
 
   constructor: ( opts ) ->
     @callback = opts.callback
-    @startPolling()
 
   fetchAndUpdateRepositories: ->
     @fetchRepositories().success ( response ) =>
@@ -11,8 +11,12 @@ class Antiqua.RepositoriesPoller
 
   fetchRepositories: -> $.getJSON '/repositories.json'
 
-  startPolling: ->
+  start: ->
+    @stop_flag = false
     poller = =>
-      @fetchAndUpdateRepositories()
-      @startPolling()
+      unless @stop_flag
+        @fetchAndUpdateRepositories()
+        @start()
     setTimeout poller , 2000
+
+  stop: -> @stop_flag = true

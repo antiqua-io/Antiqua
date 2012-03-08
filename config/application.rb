@@ -4,8 +4,6 @@ require "rails"
 [
   "action_controller",
   "action_mailer",
-  "active_resource",
-  "rails/test_unit",
   "sprockets"
 ].each do | framework |
   begin
@@ -72,6 +70,9 @@ module Antiqua
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Adjust the asset pipeline paths
+    config.assets.paths << Rails.root.join( "vendor" , "assets" , "images" )
 
     # Custom Application Requires
     #
