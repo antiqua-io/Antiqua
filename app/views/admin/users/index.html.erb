@@ -9,6 +9,7 @@
     <th>User Name</th>
     <th>Repositories</th>
     <th>Archives</th>
+    <th>Subscribed?</th>
     <th>Created At</th>
   </tr>
   <% unless @users.empty? %>
@@ -22,6 +23,14 @@
         <td><%= user.user_name %></td>
         <td><%= user.repositories.count %></td>
         <td><%= user.archives.count %></td>
+        <td>
+          <% if user.subscribed? %>
+            <i class="icon-ok"></i>
+            <%= user.subscription.stripe_customer_id %>
+          <% else %>
+            <i class="icon-remove"></i>
+          <% end %>
+        </td>
         <td><%= user.created_at %></td>
       </tr>
     <% end %>
