@@ -65,6 +65,7 @@ class RepositoriesPage extends Antiqua.GenericPage
       $btn.replaceWith new_btn
 
   togglePoller: ( $btn ) ->
+    $btn = if $btn.is( 'i' ) then $btn.parent() else $btn
     return @stopPoller( $btn ) if @poller_running
     @startPoller $btn
 
