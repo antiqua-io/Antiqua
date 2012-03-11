@@ -15,7 +15,7 @@ class User
       stripe_customer = Stripe::Customer.create \
         :card  => stripe_token,
         :email => user.email,
-        :plan  => "standard"
+        :plan  => CONFIG.stripe_individual_plan_id
       self.stripe_customer_id = stripe_customer.id
       save!
     end
