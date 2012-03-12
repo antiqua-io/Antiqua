@@ -16,8 +16,20 @@ div.container.main { min-height: 670px; }
 }
 
 #antiqua-logo {
+  background: 0 -25px no-repeat url( <%= asset_path "antiqua/logo_sm.png" %> );
+  height: 30px;
   letter-spacing: 1px;
-  margin-left: -9px;
+  margin-left: 0px;
+  padding: 5px 0 0 0;
+  text-indent: -9999px;
+  width: 100px;
+  -webkit-transition: .3s all ease-in-out;
+  -moz-transition: .3s all ease-in-out;
+  transition: .3s all ease-in-out;
+}
+
+#antiqua-logo:hover {
+  background-position: 0 9px;
 }
 
 footer.footer {
@@ -86,4 +98,16 @@ a.dropdown-toggle img {
 #toggle-poller {
   float: right;
   margin-bottom: 10px;
+}
+
+#destroy-subscription-form,
+.account-monthly-charge,
+.account-subscription-date,
+.account-archive-count,
+.account-payment-information,
+.account-card-number,
+.account-card-cvc,
+.account-card-expiry-month,
+.account-card-expiry-year {
+  margin-bottom: 0;
 }
