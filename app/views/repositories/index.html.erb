@@ -23,7 +23,7 @@
               <tr>
                 <td><%= archive[ "created_at" ] %></td>
                 <% if archive[ "state" ] == "finished" %>
-                  <td>
+                  <td class="archive-state-cell">
                       <span class="label label-success"><%= archive[ "pretty_state" ] %></span>
                   </td>
                   <td>
@@ -33,7 +33,7 @@
                        href="/archives/<%= archive[ "id" ] %>/tar_ball">Download</a>
                   </td>
                 <% else %>
-                  <td>
+                  <td class="archive-state-cell">
                     <span class="label label-info"><%= archive[ "pretty_state" ] %></span>
                   </td>
                   <td>

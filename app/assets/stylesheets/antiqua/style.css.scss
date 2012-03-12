@@ -58,6 +58,15 @@ span.pricing-separator {
   color: #57A957;
 }
 
+td.archive-state-cell {
+  vertical-align: middle;
+
+  span.label {
+    letter-spacing: 1px;
+    padding: 3px;
+  }
+}
+
 td.repo-table-description-cell {
   max-width: 300px;
 }
