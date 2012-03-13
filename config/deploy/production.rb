@@ -1,6 +1,6 @@
 set :app_env          , "production"
 set :application_port , "7000"
-set :branch           , "production"
+set :branch           , "master"
 set :deploy_to        , "/var/www/#{ application }/#{ app_env }"
 set :rails_env        , "production"
 set :user             , "ubuntu"

@@ -10,8 +10,8 @@ development:
   <<: *defaults
 
 production:
-  <<: *defaults
-  host: data.antiqua.io
+  database: antiqua_<%= ENV[ "RACK_ENV" ] %>
+  uri: <%= CONFIG.mongolab_uri %>
 
 test:
   <<: *defaults
