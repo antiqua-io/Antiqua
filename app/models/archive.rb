@@ -1,4 +1,5 @@
 class Archive
+  include DelayedExecution
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -84,5 +85,9 @@ class Archive
 
   def id_as_string
     id.to_s
+  end
+
+  def send_archive_created_email
+    ArchiveMailer.archive_created_email( self ).deliver
   end
 end

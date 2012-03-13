@@ -38,5 +38,6 @@ class ArchiveCleanWorker
   def perform
     clean
     archive.finish
+    archive.delay_send_archive_created_email
   end
 end

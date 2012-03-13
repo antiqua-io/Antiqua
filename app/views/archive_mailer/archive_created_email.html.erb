@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Hey <%= @user.user_name %>!</h1>
+    <p>
+      Your archive of <%= @repository.github_name %> is ready.
+    </p>
+    <p>
+      You can download it here: <%= link_to "Secure Download" , @tarball_url %>
+    </p>
+    <p>
+      To login to the site, just follow this link: <%= link_to "Antiqua.IO" , @url %>.
+    </p>
+    <p>
+      ==================<br />
+      Ryan Cook<br />
+      ryan@antiqua.io<br />
+      Creator
+    </p>
+  </body>
+</html>

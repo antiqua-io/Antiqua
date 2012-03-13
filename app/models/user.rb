@@ -1,4 +1,5 @@
 class User
+  include DelayedExecution
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -40,6 +41,7 @@ class User
     self.confirmed_at = Time.now.utc
     self.is_confirmed = true
     save!
+    delay_send_signup_email
   end
 
   def confirmed?
@@ -52,11 +54,24 @@ class User
     end
   end
 
+  def send_signup_email
+    UserMailer.signup_email( self ).deliver
+  end
+
+  def send_new_subscription_email
+    UserMailer.new_subscription_email( self ).deliver
+  end
+
+  def send_unsubscribe_email
+    UserMailer.unsubscribe_email( self ).deliver
+  end
+
   def subscribe!( stripe_token )
     sub = build_subscription
     sub.subscribe! stripe_token
     self.is_subscribed = true
     save!
+    delay_send_new_subscription_email
   end
 
   def subscribed?
@@ -67,5 +82,6 @@ class User
     subscription.unsubscribe! and subscription.destroy
     self.is_subscribed = false
     save!
+    delay_send_unsubscribe_email
   end
 end
