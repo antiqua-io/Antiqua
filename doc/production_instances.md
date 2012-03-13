@@ -17,8 +17,8 @@ types.
 # => run `sudo bash install.bash`
 
 # Preparations
-add-apt-repository -y ppa:chris-lea/node.js                                                                  # Node.js Prep
-apt-get -y update                                                                                            # Start with a fresh update
+add-apt-repository -y ppa:chris-lea/node.js # Node.js Prep
+apt-get -y update                           # Start with a fresh update
 
 # Required Packages
 apt-get -y install python-software-properties libssl-dev git-core pkg-config build-essential curl gcc g++ openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion traceroute
