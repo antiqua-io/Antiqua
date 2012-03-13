@@ -1,5 +1,9 @@
-<h1>Welcome to Antiqua!</h1>
-<p>Before we can get started, we need to confirm a few things. To complete this, please fill out the form below...</p>
+<div class="row">
+  <div class="span12">
+    <h1 class="title">Welcome to Antiqua!</h1>
+    <p class="page-description">Before we can get started, we need to confirm a few things. Please fill out the form below...</p>
+  </div>
+</div>
 <%= form_tag "/users/#{ current_user.user_name }" , :method => :put do | f | %>
   <input type="hidden" name="user[_confirm]" value="true" />
   <div class="row">
@@ -9,8 +13,8 @@
     </div>
     <div class="span8">
       <div class="well">
-        <label for="email">
-          <input type="email" name="user[email]" id="email" autofocus="autofocus" required="required" value="<%= @email %>" />
+        <label for="email" class="user-input-label">
+          <input type="email" name="user[email]" class="user-input" id="email" autofocus="autofocus" required="required" value="<%= @email %>" />
         </label>
       </div>
     </div>
@@ -22,8 +26,10 @@
     </div>
     <div class="span8">
       <div class="well">
-        <label for="agree_privacy_policy">
-          <input type="checkbox" id="agree_privacy_policy" name="user[agreements][agree_privacy_policy]" required="required" value="true" />
+        <label for="agree_privacy_policy" class="checkbox user-input-label">
+          <input type="checkbox" id="agree_privacy_policy" class="user-input" name="user[agreements][agree_privacy_policy]" required="required" value="true">
+            <a href="/privacy_policy" target="_blank">Privacy Policy</a>
+          </input>
         </label>
       </div>
     </div>
@@ -35,15 +41,17 @@
     </div>
     <div class="span8">
       <div class="well">
-        <label for="agree_terms_of_service">
-          <input type="checkbox" id="agree_terms_of_service" name="user[agreements][agree_terms_of_service]" required="required" value="true" />
+        <label for="agree_terms_of_service" class="checkbox user-input-label">
+          <input type="checkbox" id="agree_terms_of_service" class="user-input" name="user[agreements][agree_terms_of_service]" required="required" value="true">
+            <a href="/terms_of_service" target="_blank">Terms of Service</a>
+          </input>
         </label>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="span12 pull-right">
-      <input type="submit" class="btn btn-large btn-primary" value="All Done!" />
+    <div class="span12">
+      <input id="user-submit-button" type="submit" class="btn btn-primary btn-large submit-button" value="Subscribe" />
     </div>
   </div>
 <% end %>
