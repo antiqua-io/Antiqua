@@ -1,6 +1,6 @@
 defaults: &defaults
-  host : 127.0.0.1
-  port : 27017
+  host: 127.0.0.1
+  port: 27017
   database: antiqua_<%= ENV[ "RACK_ENV" ] %>
 
 demo:
@@ -10,9 +10,8 @@ development:
   <<: *defaults
 
 production:
-  database: antiqua_<%= ENV[ "RACK_ENV" ] %>
-  uri: <%= ENV['MONGOHQ_URL'] %>
+  <<: *defaults
+  host: data.antiqua.io
 
 test:
   <<: *defaults
-
