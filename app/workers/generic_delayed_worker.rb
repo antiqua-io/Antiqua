@@ -21,7 +21,7 @@ class GenericDelayedWorker
 
   def find_and_execute
     find_instance
-    puts( instance.send delayed_method.to_sym , *args )
+    instance.send delayed_method.to_sym , *args
   end
 
   def find_instance
