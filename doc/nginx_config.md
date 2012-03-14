@@ -19,8 +19,8 @@ server {
   root                /var/www/antiqua/production/current/public;
   server_name         antiqua.io;
   ssl                 on;
-  ssl_certificate     /path/to/ssl/xxxxxxxxx.crt;
-  ssl_certificate_key /path/to/ssl/xxxxxxxxx.key;
+  ssl_certificate     /path/to/ssl/xxxxxxxx.crt;
+  ssl_certificate_key /path/to/ssl/xxxxxxxx.key;
 
   if ($request_method !~ ^(GET|DELETE|HEAD|OPTIONS|PATCH|POST|PUT)$ ){
     return 405;
@@ -41,12 +41,24 @@ server {
   }
 
   location @app {
-      proxy_pass http://antiqua_production;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header Host $http_host;
+      proxy_set_header Host              $http_host;
+      proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-Real-IP         $remote_addr;
+      proxy_set_header X-Url-Scheme      $scheme;
+      proxy_max_temp_file_size 0;
       proxy_redirect off;
+      proxy_pass http://antiqua_production;
     }
+}
+
+server {
+  listen      443;
+  server_name www.antiqua.io;
+
+  location / {
+    rewrite ^ https://antiqua.io$request_uri? permanent;
+  }
 }
 
 server {
