@@ -24,6 +24,7 @@ Antiqua::Application.routes.draw do
   match "auth/failure"            => "auth#failure"
   match "auth/logout"             => "auth#logout"
 
+  match "contact"          => "static#contact"
   match "terms_of_service" => "static#terms_of_service"
   match "privacy_policy"   => "static#privacy_policy"
 end
