@@ -3,8 +3,8 @@ class RepositoriesController < AuthenticatedController
 
   def index
     @repos = RepositoryPresenter.present \
-      :remote_repos => Remote::Repositories.new( :auth_token => session[ :auth_token ] ).all,
-      :repos        => current_user.repositories
+      :local_repos  => load_local_repositories,
+      :remote_repos => load_remote_repositories
     respond_to do | format |
       format.html
       format.json { render :json => @repos }
@@ -13,5 +13,13 @@ class RepositoriesController < AuthenticatedController
 private
   def check_for_first_time_user
     redirect_to user_path( current_user.user_name ) unless current_user.confirmed?
+  end
+
+  def load_local_repositories
+    ( params[ :type ] == "remote" ) ? [] : current_user.repositories
+  end
+
+  def load_remote_repositories
+    ( params[ :type ] == "local" ) ? [] : Remote::Repositories.new( :auth_token => session[ :auth_token ] ).all
   end
 end

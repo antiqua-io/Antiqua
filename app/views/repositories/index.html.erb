@@ -7,50 +7,56 @@
   </div>
 </div>
 <div class="row">
-  <div class="span8">
+  <div id="local-repositories" class="span8">
     <h2>Your Archives</h2>
-    <% @repos.each do | repo | %>
-      <h3 id="repo-<%= repo.id %>-header"><%= repo.name %></h3>
-      <div id="repository-<%= repo.id %>-archives">
-        <% if repo.archives.any? %>
-          <table class="table table-striped table-bordered">
-            <tr>
-              <th>Created At</th>
-              <th>State</th>
-              <th>Action</th>
-            </tr>
-            <% repo.archives.each do | archive | %>
+    <% if @repos.local.any? %>
+      <% @repos.local.each do | local_repository | %>
+        <h3 id="repo-<%= local_repository.github_id %>-header"><%= local_repository.github_name %></h3>
+        <div id="repository-<%= local_repository.github_id %>-archives">
+          <% if local_repository.archives.any? %>
+            <table class="table table-striped table-bordered">
               <tr>
-                <td><%= archive[ "created_at" ] %></td>
-                <% if archive[ "state" ] == "finished" %>
-                  <td class="archive-state-cell">
-                      <span class="label label-success"><%= archive[ "pretty_state" ] %></span>
-                  </td>
-                  <td>
-                    <a class="btn btn-success"
-                       id="repo-<%= repo.id %>"
-                       target="_blank"
-                       href="/archives/<%= archive[ "id" ] %>/tar_ball">Download</a>
-                  </td>
-                <% else %>
-                  <td class="archive-state-cell">
-                    <span class="label label-info"><%= archive[ "pretty_state" ] %></span>
-                  </td>
-                  <td>
-                    <a class="btn disabled"
-                       id="repo-<%= repo.id %>"
-                       href="#">Working</a>
-                  </td>
-                <% end %>
+                <th>Created At</th>
+                <th>State</th>
+                <th>Action</th>
               </tr>
-            <% end %>
-          </table> <!-- table.table.table-striped.table-bordered -->
-        <% else %>
-          <div class="alert alert-warning">
-            This repository does not yet have any archives!
-          </div> <!-- div.alert.alert-info -->
-        <% end %>
-      </div> <!-- div#repository-<%= repo.id %>-archives -->
+              <% local_repository.archives.each do | archive | %>
+                <tr>
+                  <td><%= archive[ "created_at" ] %></td>
+                  <% if archive[ "state" ] == "finished" %>
+                    <td class="archive-state-cell">
+                        <span class="label label-success"><%= archive[ "pretty_state" ] %></span>
+                    </td>
+                    <td>
+                      <a class="btn btn-success"
+                         id="repo-<%= local_repository.github_id %>"
+                         target="_blank"
+                         href="/archives/<%= archive[ "id" ] %>/tar_ball">Download</a>
+                    </td>
+                  <% else %>
+                    <td class="archive-state-cell">
+                      <span class="label label-info"><%= archive[ "pretty_state" ] %></span>
+                    </td>
+                    <td>
+                      <a class="btn disabled"
+                         id="repo-<%= local_repository.github_id %>"
+                         href="#">Working</a>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </table> <!-- table.table.table-striped.table-bordered -->
+          <% else %>
+            <div class="alert alert-warning">
+              This repository does not yet have any archives!
+            </div> <!-- div.alert.alert-info -->
+          <% end %>
+        </div> <!-- div#repository-<%= local_repository.github_id %>-archives -->
+      <% end %>
+    <% else %>
+      <div id="no-archive-warning" class="alert alert-warning">
+        You haven't yet created any archives. Remember, your first one is FREE. Just click "Archive" on any repository to the right and get things started!
+      </div> <!-- div.alert.alert-info -->
     <% end %>
   </div> <!-- div.span8 -->
   <div class="span4">
@@ -60,19 +66,19 @@
         <th>Name</th>
         <th>Action</th>
       </tr>
-      <% @repos.each do | repo | %>
+      <% @repos.remote.each do | remote_repository | %>
         <tr>
           <td>
-            <a target="_blank" href="<%= repo.html_url %>"><%= repo.name %></a>
+            <a target="_blank" href="<%= remote_repository.html_url %>"><%= remote_repository.name %></a>
           </td>
           <td>
-            <a class="btn btn-primary"
-              id="repo-<%= repo.id %>-create-button"
+            <a class="btn <%= remote_repository.archive_btn_class %>"
+              id="repo-<%= remote_repository.id %>-create-button"
               href="#"
               data-archive-url="/archives"
-              data-repository-id="<%= repo.id %>"
-              data-repository-name="<%= repo.name %>"
-              data-repository-ssh-url="<%= repo.ssh_url %>">Archive</a>
+              data-repository-id="<%= remote_repository.id %>"
+              data-repository-name="<%= remote_repository.name %>"
+              data-repository-ssh-url="<%= remote_repository.ssh_url %>">Archive</a>
           </td>
         </tr>
       <% end %>

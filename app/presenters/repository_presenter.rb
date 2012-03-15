@@ -1,5 +1,8 @@
 class RepositoryPresenter
-  attr_reader :final , :options , :remote_repos , :repos
+  attr_reader :local_repos,
+              :local_repos_with_archives,
+              :options,
+              :remote_repos
 
   REMOTE_FIELDS = [
     "description",
@@ -15,37 +18,47 @@ class RepositoryPresenter
   end
 
   def initialize( *args )
-    @options      = Map Map.opts!( args )
+    @options      = Map.new Map.opts!( args )
+    @local_repos  = options.local_repos  rescue []
     @remote_repos = options.remote_repos rescue []
-    @repos        = options.repos        rescue []
+
+    @local_repos_with_archives = []
   end
 
-  def mix_app_local_data( final )
-    final.each do | repo |
-      local_repo = repos.detect { | r | r.github_id == repo[ "id" ] }
-      if local_repo
-        archives = ArchivePresenter.present( :target => local_repo.archives )
+  def append_local_data( final )
+    final.local = []
+    local_repos.each do | local_repo |
+      presented_local_repo = Map.new( {
+        :archives    => ArchivePresenter.present( :target => local_repo.archives ),
+        :github_id   => local_repo.github_id,
+        :github_name => local_repo.github_name
+      } )
+      local_repos_with_archives.push presented_local_repo.github_id unless presented_local_repo.archives.empty?
+      final.local.push presented_local_repo
+    end
+    final
+  end
+
+  def append_remote_data( final )
+    final.remote = []
+    remote_repos.each do | remote_repo |
+      presented_remote_repo = Map.new
+      REMOTE_FIELDS.each { | field | presented_remote_repo[ field ] = remote_repo[ field ] }
+      if local_repos_with_archives.include? presented_remote_repo.id
+        presented_remote_repo.has_archives = true
+        presented_remote_repo.archive_btn_class = "btn-primary"
       else
-        archives = []
+        presented_remote_repo.has_archives = true
+        presented_remote_repo.archive_btn_class = "btn-warning"
       end
-      repo[ "archives" ] = archives
+      final.remote.push presented_remote_repo
     end
     final
   end
 
   def present
-    @final = []
-    @final = trim_remote_data @final
-    @final = mix_app_local_data @final
-    @final.map { | r | Map r }
-  end
-
-  def trim_remote_data( final )
-    remote_repos.each do | r |
-      new_r = {}
-      REMOTE_FIELDS.each { | f | new_r[ f ] = r[ f ] }
-      final.push new_r
-    end
-    final
+    final = Map.new
+    final = append_local_data  final
+    final = append_remote_data final
   end
 end

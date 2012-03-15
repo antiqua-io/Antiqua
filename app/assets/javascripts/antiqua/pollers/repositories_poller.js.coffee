@@ -9,7 +9,7 @@ class Antiqua.RepositoriesPoller
     @fetchRepositories().success ( response ) =>
       @callback response
 
-  fetchRepositories: -> $.getJSON '/repositories.json'
+  fetchRepositories: -> $.getJSON '/repositories.json?type=local'
 
   start: ->
     @stop_flag = false
