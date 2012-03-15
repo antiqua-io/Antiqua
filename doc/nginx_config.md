@@ -75,7 +75,7 @@ server {
   server_name www.antiqua.io;
 
   location / {
-    rewrite ^ http://antiqua.io$request_uri? permanent;
+    rewrite ^ https://antiqua.io$request_uri? permanent;
   }
 }
 ```
