@@ -55,6 +55,12 @@ apt-get -y autoclean
 Datastore servers still include node.js/npm and rvm with ruby-1.9.3-p125
 for use in debugging scenarios.
 
+* Ensure that the `bind 127.0.0.1` directive is commented out in
+  `/etc/redis/redis.conf`
+* Ensure that the public IP of the main app server is allowed access on
+  ports `27017` and `6379`. All other incoming traffic should be blocked
+  for all IP addresses except maybe SSH.
+
 ```
 #!/bin/bash
 
