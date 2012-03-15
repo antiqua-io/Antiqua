@@ -11,7 +11,7 @@ class ArchiveMailer < ActionMailer::Base
   end
 
   def tarball_url( archive )
-    "https://#{ CONFIG.sendgrid_domain }/archives/#{ archive.id_as_string }/tarball"
+    "https://#{ CONFIG.sendgrid_domain }/archives/#{ archive.id_as_string }/tar_ball"
   end
 
   def url
