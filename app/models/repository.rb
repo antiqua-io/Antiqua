@@ -14,4 +14,8 @@ class Repository
   #
   has_and_belongs_to_many :users
   has_many                :archives
+
+  def self.for_user_with_archives( user )
+    where( :_id.in => user.repository_ids ).includes :archives
+  end
 end

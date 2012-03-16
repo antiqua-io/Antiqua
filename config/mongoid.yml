@@ -1,7 +1,8 @@
 defaults: &defaults
-  host: 127.0.0.1
-  port: 27017
   database: antiqua_<%= ENV[ "RACK_ENV" ] %>
+  host: 127.0.0.1
+  identity_map_enabled: true
+  port: 27017
 
 demo:
   <<: *defaults
@@ -10,7 +11,7 @@ development:
   <<: *defaults
 
 production:
-  database: antiqua_<%= ENV[ "RACK_ENV" ] %>
+  <<: *defaults
   host: data.antiqua.io
 
 test:

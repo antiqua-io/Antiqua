@@ -16,7 +16,7 @@ private
   end
 
   def load_local_repositories
-    ( params[ :type ] == "remote" ) ? [] : current_user.repositories
+    ( params[ :type ] == "remote" ) ? [] : Repository.for_user_with_archives( current_user )
   end
 
   def load_remote_repositories
