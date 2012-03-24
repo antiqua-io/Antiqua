@@ -7,8 +7,7 @@ class AuthController < ApplicationController
   end
 
   def failure
-    auth = request.env['omniauth.auth']
-    raise auth.inspect
+    redirect_to root_path , :flash => { :error => "Unable to authenticate -- please try again!" }
   end
 
   def logout

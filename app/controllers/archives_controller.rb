@@ -23,7 +23,6 @@ private
   end
 
   def verify_user_subscription
-    flash_message = "You can only create one archive until you <a href='#{ account_user_path current_user.user_name }'>subscribe!</a>"
     render( :json => { "error" => "needs_subscription" , "user_name" => current_user.user_name } , :status => 403 ) unless user_allowed?
   end
 end
