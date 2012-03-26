@@ -3,6 +3,7 @@ class AuthController < ApplicationController
     auth = request.env['omniauth.auth']
     initialize_session!      auth
     initialize_current_user! auth
+    current_user.build_or_rebuild_org_permissions
     redirect_to repositories_path
   end
 

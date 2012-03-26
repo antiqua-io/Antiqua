@@ -13,16 +13,17 @@ class User
 
   # Fields
   #
-  field :agreements         , :type => Hash
-  field :auth_token         , :type => String
-  field :confirmed_at       , :type => Time
-  field :email              , :type => String
-  field :image_url          , :type => String
-  field :is_admin           , :type => Boolean , :default => false
-  field :is_confirmed       , :type => Boolean , :default => false
-  field :is_subscribed      , :type => Boolean , :default => false
-  field :uid                , :type => Integer
-  field :user_name          , :type => String
+  field :agreements               , :type => Hash
+  field :auth_token               , :type => String
+  field :confirmed_at             , :type => Time
+  field :email                    , :type => String
+  field :image_url                , :type => String
+  field :is_admin                 , :type => Boolean , :default => false
+  field :is_confirmed             , :type => Boolean , :default => false
+  field :is_subscribed            , :type => Boolean , :default => false
+  field :organization_permissions , :type => String
+  field :uid                      , :type => Integer
+  field :user_name                , :type => String
 
   # Indices
   #
@@ -33,8 +34,33 @@ class User
   has_many                :archives
   has_and_belongs_to_many :repositories
 
+  state_machine :organization_permissions , :initial => :empty_permissions do
+    state :building_permissions
+    state :empty_permissions
+    state :permissions_built
+
+    event :build_permissions do
+      transition :empty_permissions => :building_permissions
+    end
+
+    event :finish_permissions_build do
+      transition :building_permissions => :permissions_built
+    end
+
+    event :rebuild_permissions do
+      transition :permissions_built => :building_permissions
+    end
+
+    after_transition any => :building_permissions , :do => :enqueue_permissions_builder_worker
+  end
+
   def admin?
     is_admin
+  end
+
+  def build_or_rebuild_org_permissions
+    return rebuild_permissions if permissions_built?
+    build_permissions
   end
 
   def confirm!
@@ -46,6 +72,10 @@ class User
 
   def confirmed?
     is_confirmed
+  end
+
+  def enqueue_permissions_builder_worker
+    Resque.enqueue UserOrganizationAuthorizationWorker , :user_id => id.to_s
   end
 
   def safe_update( attrs )

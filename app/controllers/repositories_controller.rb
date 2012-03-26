@@ -5,6 +5,7 @@ class RepositoriesController < AuthenticatedController
     @repos = RepositoryPresenter.present \
       :local_repos  => load_local_repositories,
       :remote_repos => load_remote_repositories
+
     respond_to do | format |
       format.html
       format.json { render :json => @repos }

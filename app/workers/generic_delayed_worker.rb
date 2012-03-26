@@ -12,7 +12,7 @@ class GenericDelayedWorker
   end
 
   def initialize( *args , &block )
-    @options        = Map.new Map.opts!( args )
+    @options        = Map.opts! args
     @desired_klass  = options.desired_klass  rescue args.shift or raise ArgumentError.new( "Missing option 'desired_klass'!" )
     @klass_id       = options.klass_id       rescue args.shift or raise ArgumentError.new( "Missing option 'klass_id'!" )
     @delayed_method = options.delayed_method rescue args.shift or raise ArgumentError.new( "Missing option 'delayed_method'!" )
@@ -26,7 +26,7 @@ class GenericDelayedWorker
 
   def find_instance
     local_klass = ( !desired_klass.is_a? String ) ? desired_klass : desired_klass.constantize
-    @instance = local_klass.find klass_id
+    @instance   = local_klass.find klass_id
   end
 
   def perform

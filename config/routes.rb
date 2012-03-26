@@ -11,7 +11,8 @@ Antiqua::Application.routes.draw do
     member { get :tar_ball }
   end
 
-  resources :repositories , :only => [ :index ]
+  resources :organizations , :only => :index
+  resources :repositories  , :only => :index
 
   resources :users , :only => [ :show , :update ] do
     member do

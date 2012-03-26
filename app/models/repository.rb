@@ -1,5 +1,3 @@
-require "mongoid"
-
 class Repository
   include Mongoid::Document
   include Mongoid::Timestamps
