@@ -18,6 +18,9 @@ class RepositoriesPage extends Antiqua.GenericPage
       github_repository_name:    target.data 'repository-name'
       github_repository_ssh_url: target.data 'repository-ssh-url'
 
+    org = target.data 'repository-org'
+    repository_data.github_repository_org = org if org
+
     call = $.ajax
       data: repository_data
       type: 'POST'

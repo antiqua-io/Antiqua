@@ -2,7 +2,9 @@ class RepositoryPresenter
   attr_reader :local_repos,
               :local_repos_with_archives,
               :options,
-              :remote_repos
+              :params,
+              :remote_repos,
+              :user
 
   REMOTE_FIELDS = [
     "description",
@@ -18,9 +20,11 @@ class RepositoryPresenter
   end
 
   def initialize( *args )
-    @options      = Map.new Map.opts!( args )
-    @local_repos  = options.local_repos  rescue []
-    @remote_repos = options.remote_repos rescue []
+    @options      = Map.opts! args
+    @local_repos  = options.local_repos  rescue args.shift || []
+    @remote_repos = options.remote_repos rescue args.shift || []
+    @user         = options.user         rescue args.shift || nil
+    @params       = options.params       rescue args.shift || Map.new
 
     @local_repos_with_archives = []
   end
@@ -35,6 +39,33 @@ class RepositoryPresenter
       } )
       local_repos_with_archives.push presented_local_repo.github_id unless presented_local_repo.archives.empty?
       final.local.push presented_local_repo
+    end
+    final
+  end
+
+  def append_org_data( final )
+    if user.present? && user.permissions_built?
+      final.render_user_orgs = true
+      final.orgs = []
+      Organization.with_repositories_archiveable_by( user ).each do | org |
+        presented_org = Map.new
+        presented_org.name      = org.name
+        presented_org.image_url = org.image_url
+        final.orgs.push presented_org
+      end
+    else
+      final.render_user_orgs = false
+    end
+    final
+  end
+
+  def append_org_context_data( final )
+    if params[ "org" ] and org = final.orgs.detect { | o | o.name == params[ "org" ] }
+      final.org_context = org
+      final.org_context_is_org = true
+    else
+      final.org_context = Map.new :image_url => user.image_url , :name => user.user_name
+      final.org_context_is_org = false
     end
     final
   end
@@ -58,7 +89,9 @@ class RepositoryPresenter
 
   def present
     final = Map.new
-    final = append_local_data  final
-    final = append_remote_data final
+    final = append_local_data       final
+    final = append_remote_data      final
+    final = append_org_data         final
+    final = append_org_context_data final
   end
 end

@@ -17,6 +17,11 @@ class Organization
   #
   has_and_belongs_to_many :archivists , :class_name => "::User" , :inverse_of => nil
   has_and_belongs_to_many :owners     , :class_name => "::User" , :inverse_of => nil
+  has_many                :repositories
+
+  def self.find_by_name( name )
+    where( :name => name ).first
+  end
 
   def self.with_repositories_archiveable_by( user )
     any_of( { :owner_ids => user.id } , { :archivist_ids => user.id } )

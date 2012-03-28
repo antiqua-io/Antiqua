@@ -4,7 +4,9 @@ class RepositoriesController < AuthenticatedController
   def index
     @repos = RepositoryPresenter.present \
       :local_repos  => load_local_repositories,
-      :remote_repos => load_remote_repositories
+      :remote_repos => load_remote_repositories,
+      :user         => current_user,
+      :params       => params
 
     respond_to do | format |
       format.html
@@ -21,6 +23,17 @@ private
   end
 
   def load_remote_repositories
-    ( params[ :type ] == "local" ) ? [] : Remote::Repositories.new( :auth_token => session[ :auth_token ] ).all
+    unless params[ :type ] == "local"
+      org = if params[ :org ].present?
+        Organization.with_repositories_archiveable_by( current_user ).find_by_name( params[ :org ] )
+      else
+        false
+      end
+      remote_repo_args = { :auth_token => session[ :auth_token ] }
+      remote_repo_args.merge!( { :org => org } ) if org
+      Remote::Repositories.new( remote_repo_args ).all
+    else
+      []
+    end
   end
 end
