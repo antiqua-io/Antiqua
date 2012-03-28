@@ -23,6 +23,10 @@ class ArchiveCleaner
   end
 
   def repository_identifier
-    "#{ user.user_name }/#{ repository.github_name }"
+    "#{ repository_owner_name }/#{ repository.github_name }"
+  end
+
+  def repository_owner_name
+    repository.organization.name rescue user.user_name
   end
 end

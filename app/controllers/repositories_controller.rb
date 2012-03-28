@@ -19,7 +19,16 @@ private
   end
 
   def load_local_repositories
-    ( params[ :type ] == "remote" ) ? [] : Repository.for_user_with_archives( current_user )
+    unless params[ :type ] == "remote"
+      if params[ :org ].present? and org = Organization.with_repositories_archiveable_by( current_user ).find_by_name( params[ :org ] )
+        repositories = Repository.for_organization( org ).for_user_with_archives current_user
+      else
+        repositories = Repository.without_organization.for_user_with_archives current_user
+      end
+      repositories
+    else
+      []
+    end
   end
 
   def load_remote_repositories

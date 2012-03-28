@@ -2,7 +2,7 @@ class ArchivesController < AuthenticatedController
   before_filter :verify_user_subscription , :only => :create
 
   def create
-    org_name = ( !params[ :github_repository_org ].empty? ) ? params[ :github_repository_org ] : false
+    org_name = params[ :github_repository_org ] ? params[ :github_repository_org ] : false
     @has_org_context = !!org_name
     authorize_user_for_org! org_name if @has_org_context
     repository = Repository.find_or_create_by \
