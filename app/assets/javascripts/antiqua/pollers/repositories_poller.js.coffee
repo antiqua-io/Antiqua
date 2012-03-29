@@ -9,7 +9,11 @@ class Antiqua.RepositoriesPoller
     @fetchRepositories().success ( response ) =>
       @callback response
 
-  fetchRepositories: -> $.getJSON '/repositories.json?type=local'
+  fetchRepositories: ->
+    org  = Antiqua.Helpers.getUrlParameterByName 'org'
+    path = '/repositories.json?type=local'
+    path = if org.length > 0 then "#{ path }&org=#{ org }" else path
+    $.getJSON path
 
   start: ->
     @stop_flag = false

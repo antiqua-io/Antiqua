@@ -45,7 +45,8 @@ class RepositoryPresenter
 
   def append_org_data( final )
     if user.present? && user.permissions_built?
-      final.render_user_orgs = true
+      final.render_user_orgs   = true
+      final.building_user_orgs = false
       final.orgs = []
       Organization.with_repositories_archiveable_by( user ).each do | org |
         presented_org = Map.new
@@ -53,8 +54,12 @@ class RepositoryPresenter
         presented_org.image_url = org.image_url
         final.orgs.push presented_org
       end
+    elsif user.present? && user.building_permissions?
+      final.render_user_orgs   = false
+      final.building_user_orgs = true
     else
-      final.render_user_orgs = false
+      final.render_user_orgs   = false
+      final.building_user_orgs = false
     end
     final
   end

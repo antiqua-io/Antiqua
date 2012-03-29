@@ -26,6 +26,14 @@
           </ul>
         </li>
       </ul>
+    <% elsif @repos.building_user_orgs %>
+      <div class="loader-container well">
+        <%= image_tag "antiqua/loader.gif" , :width => "64" , :height => "20" %>
+        <p><strong>Building Organization Permissions</strong> -- The page will reload shortly.</p>
+      </div>
+      <%= javascript_tag do %>
+        setTimeout( function(){ window.location.reload(); } , 5000 );
+      <% end %>
     <% else %>
       &nbsp;
     <% end %>
